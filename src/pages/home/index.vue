@@ -5,7 +5,7 @@
         <view class="title_inner">
           <uni-segmented-control
             :current="current"
-            :values="items.map((v) => v.title)"
+            :values="items.map(v => v.title)"
             @clickItem="onClickItem"
             styleType="text"
             activeColor="#d4237a"
@@ -57,23 +57,20 @@ export default {
   },
 
   onLoad() {
-    //   wx.request({
-    //     url: 'http://157.122.54.189:9088/image/v1/vertical/category',
-    //     success(res){
-    //         console.log(res);
-    //     }
-    //   })
-
-    uni
-      .request({
-        url: "http://157.122.54.189:9088/image/v1/vertical/category",
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    
+    
   },
 };
 </script>
 
 <style lang="scss">
+
+.home_tab {
+  position: relative;
+  .home_tab_title {
+    .title_inner {
+      padding:5px 15%;
+    }
+  }
+}
 </style>
