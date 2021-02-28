@@ -18,14 +18,14 @@
       <!-- 月份标题 -->
       <view class="monthes_title">
         <view class="monthes_title_info">
-          <text> {{monthes.DD}} / </text> {{monthes.MM}}月
+          <text> {{monthes.DD}}/{{monthes.MM }}月</text> {{ monthes.title.replace('。',' ') }}
         </view>
-        <view class="monthes_text">{{monthes.title}}</view>
+        <view class="monthes_text">更多 > </view>
       </view>
 
       <!-- 月份主体 -->
       <view class="monthes_content">
-        <view class="monthes_item" v-for="item in monthes" :key="item.id">
+        <view class="monthes_item" v-for="item in monthes.items" :key="item.id">
           <image
             mode="aspectFill"
             :src="item.thumb + item.rule.replace('$<Height>', 360)"
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import moment from "moment";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -91,12 +91,11 @@ export default {
           //条件通过说明第一次请求,以免造成性能浪费
 
           this.recommend = result.data.res.homepage[1].items; //推荐数据
-          this.monthes = result.data.res.homepage[2].items; //月份
+          this.monthes = result.data.res.homepage[2]; //月份
 
           this.monthes.DD = moment(this.monthes.stime).format("DD");
           this.monthes.MM = moment(this.monthes.stime).format("MM");
-
-          console.log(this.monthes);
+          // console.log(this.monthes);
         }
 
         this.hots = [...this.hots, ...result.data.res.vertical]; //热门
@@ -117,8 +116,11 @@ export default {
       }
     },
   },
+  onLoad() {},
   mounted() {
     this.getList();
+
+    uni.setNavigationBarTitle({title:'推荐'});
   },
 };
 </script>

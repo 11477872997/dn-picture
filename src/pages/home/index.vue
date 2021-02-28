@@ -14,7 +14,8 @@
       </view>
     </view>
     <view class="home_content">
-      <view v-if="current === 0"> <HomeRecommend /> </view>
+      <!-- <view v-if="current === 0"> <HomeRecommend /> </view> -->
+      <view v-if="current === 0"> <HomeAlbum /> </view>
       <view v-if="current === 1"> <HomeCategory /> </view>
       <view v-if="current === 2"> <HomeNew /> </view>
       <view v-if="current === 3"> <HomeAlbum /> </view>
