@@ -1,10 +1,12 @@
 <template>
   <view 
-
   @touchstart="handleTouchStart" 
   @touchend="handleTouchEnd">
-    </view
-  >
+
+    <slot></slot>
+
+
+    </view>
 </template>
 
 <script>
@@ -32,19 +34,21 @@ export default {
 
         if(Date.now() - this.startTime > 2000){ //判断手指停留时间
           console.log('不合格');
+          return;
         }
         
         let direction = '';
         
       // 先判断用户滑动的距离 是否合法 合法：判断滑动的方向  注意 距离要加上绝对值
-      if (Math.abs(endX - this.startX) > 10) {
+      if (Math.abs(endX - this.startX) > 10  && Math.abs(endY - this.startY) < 100) {
         // 滑动方向！！！
         direction = endX - this.startX > 0 ? "right" : "left"; //大于零说明是往右边滑动
       } else {
         return;
       }
 
-        console.log(direction);
+        // console.log(direction);
+        this.$emit('swiperAction',{direction})
 
 
 

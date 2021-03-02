@@ -7,7 +7,12 @@
   >
     <!-- 推荐开始 -->
     <view class="recommend_wrap">
-      <view class="recommend_item" v-for="item in recommend" :key="item.id">
+      <view 
+      class="recommend_item" 
+      v-for="item in recommend" 
+      :key="item.id"
+      >
+              <!-- :url="`/pages/album/index?id=${item.target}`" -->
         <image mode="widthFix" :src="item.thumb" />
       </view>
     </view>
@@ -25,11 +30,13 @@
 
       <!-- 月份主体 -->
       <view class="monthes_content">
-        <view class="monthes_item" v-for="item in monthes.items" :key="item.id">
+        <view class="monthes_item" v-for="(item,index) in monthes.items" :key="item.id">
+          <GoDetail :list=monthes.items :index=index>
           <image
             mode="aspectFill"
             :src="item.thumb + item.rule.replace('$<Height>', 360)"
           />
+          </GoDetail>
         </view>
       </view>
     </view>
@@ -44,8 +51,10 @@
       </view>
       <!-- 热门主体 -->
       <view class="hot_content">
-        <view class="hot_item" v-for="item in hots" :key="item.id">
+        <view class="hot_item" v-for="(item,index) in hots" :key="item.id">
+          <GoDetail :list=hots :index=index  >
           <image mode="aspectFill" :src="item.thumb" />
+          </GoDetail>
         </view>
       </view>
     </view>
@@ -56,7 +65,11 @@
 
 <script>
 import moment from "moment";
+import goDetail from '@/components/goDetail'
 export default {
+  components:{
+    goDetail
+  },
   data() {
     return {
       recommend: [],
@@ -128,7 +141,7 @@ export default {
 <style lang='scss' scoped>
 /* 推荐 */
 .recommend_view {
-  height: calc(100vh - 36px);
+  height: calc(100vh - 45px);
 }
 .recommend_wrap {
   display: flex;

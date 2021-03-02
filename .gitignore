@@ -2,6 +2,7 @@
 node_modules/
 unpackage/
 dist/
+ZD.md/
 
 # local env files
 .env.local

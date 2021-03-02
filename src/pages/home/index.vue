@@ -14,8 +14,7 @@
       </view>
     </view>
     <view class="home_content">
-      <!-- <view v-if="current === 0"> <HomeRecommend /> </view> -->
-      <view v-if="current === 0"> <HomeAlbum /> </view>
+      <view v-if="current === 0"> <HomeRecommend /> </view>
       <view v-if="current === 1"> <HomeCategory /> </view>
       <view v-if="current === 2"> <HomeNew /> </view>
       <view v-if="current === 3"> <HomeAlbum /> </view>
@@ -59,12 +58,12 @@ export default {
 
   onLoad() {
     
-    
+    // console.log(123);
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .home_tab {
   position: relative;

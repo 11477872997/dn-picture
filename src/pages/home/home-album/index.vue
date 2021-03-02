@@ -11,7 +11,12 @@
 
     <!-- 专辑 -->
     <view class="AlbumList">
-      <view class="AlbumItem" v-for="item in album" :key="item.id">
+      <navigator 
+      class="AlbumItem" 
+      v-for="item in album" 
+      :key="item.id"
+      :url="`/pages/home/home-album/AlbumDetails/index?id=${item.id}`"
+      >
         <view class="AlbumImg">
           <image :src="item.cover" mode="aspectFill" />
         </view>
@@ -24,7 +29,7 @@
             <view class="attention">关注</view>
           </view>
         </view>
-      </view>
+      </navigator>
     </view>
   </scroll-view>
 </template>
@@ -36,7 +41,7 @@ export default {
       params: {
         limit: 30,
         order: "new",
-        skip: 0,
+        skip: 40,
       },
       banner: [], //轮播图
       album: [], //专辑
@@ -67,7 +72,7 @@ export default {
 
         this.album = [...this.album, ...result.data.res.album];
 
-        console.log(this.params.skip);
+        // console.log(this.params.skip);
       });
     },
     handleToLower() {
@@ -94,7 +99,7 @@ export default {
 
 <style lang='scss' scoped>
 .AlbumBody {
-  height: calc(100vh - 36rpx);
+  height: calc(100vh - 36px);
 }
 
 /* 轮播图 */
