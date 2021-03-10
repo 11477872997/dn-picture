@@ -41,7 +41,7 @@ export default {
       params: {
         limit: 30,
         order: "new",
-        skip: 40,
+        skip: 0,
       },
       banner: [], //轮播图
       album: [], //专辑

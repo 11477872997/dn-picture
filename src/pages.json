@@ -8,9 +8,21 @@
 	},
 	"pages": [
 		{
+			"path": "pages/video/index",
+			"style": {
+				"navigationBarTitleText": "精美视频"
+			}
+		},
+		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/videoPlay/index",
+			"style": {
+				"navigationBarTitleText": "视频播放"
 			}
 		},
 		{
@@ -23,12 +35,6 @@
 			"path": "pages/home/home-album/AlbumDetails/index",
 			"style": {
 				"navigationBarTitleText": "专辑详情"
-			}
-		},
-		{
-			"path": "pages/video/index",
-			"style": {
-				"navigationBarTitleText": "精美视频"
 			}
 		},
 		{

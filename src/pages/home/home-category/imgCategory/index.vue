@@ -17,8 +17,10 @@
     @scrolltolower=handleScrolltolower
     enable-flex scroll-y  
     class="category_content">
-      <view class="cate_item" v-for="item in vertical" :key="item.id">
+      <view class="cate_item" v-for="(item,index) in vertical" :key="item.id">
+        <GoDetail :list=vertical :index=index :params=params :Imgid=Imgid >
         <image :src="item.thumb" mode="widthFix" />
+        </GoDetail>
       </view>
     </scroll-view>
   </view>
@@ -26,13 +28,15 @@
 
 <script>
 import { uniSegmentedControl } from "@dcloudio/uni-ui";
+import goDetail from "@/components/goDetail"
 export default {
   components: {
     uniSegmentedControl,
+    goDetail
   },
   data() {
     return {
-      id: "",
+      Imgid: "",
       items: [
         { title: "最新", order: "new" },
         { title: "热门", order: "hot" },
@@ -48,22 +52,25 @@ export default {
     };
   },
   onLoad(id) {
-    this.id = id.id;
+    this.Imgid = id.id;
     // this.id = "4e4d610cdf714d2966000000";
     this.getList();
+    // uni.showLoading({
+    //   title: '加载中',
+    // })
 
     // console.log(id);
   },
   methods: {
 
     getList() { //请求
-      uni.request({
-          url: `http://157.122.54.189:9088/image/v1/vertical/category/${this.id}/vertical`,
+      this.request({
+          url: `http://157.122.54.189:9088/image/v1/vertical/category/${this.Imgid}/vertical`,
           data: this.params,
         })
         .then((result) => {
 
-          if(result[1].data.res.vertical.length === 0){ //没有数据了
+          if(result.data.res.vertical.length === 0){ //没有数据了
             uni.showToast({
               title:'没有数据了',
                icon:'none'
@@ -72,8 +79,10 @@ export default {
             return;
           }
 
-          this.vertical = [...this.vertical, ...result[1].data.res.vertical];
-          console.log(this.vertical);
+          console.log(result);
+
+          this.vertical = [...this.vertical, ...result.data.res.vertical];
+          // console.log(this.vertical);
         });
     },
     onClickItem(e) { //切换按钮

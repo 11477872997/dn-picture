@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      current: 0,
+      current: 3,
       items: [
         { title: "推荐" },
         { title: "分类" },
@@ -53,6 +53,10 @@ export default {
       if (this.current !== e.currentIndex) {
         this.current = e.currentIndex;
       }
+
+
+      getApp().globalData.imgList={};
+      getApp().globalData.imgIndex=Number;
     },
   },
 

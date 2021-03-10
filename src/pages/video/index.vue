@@ -1,59 +1,74 @@
 <template>
-  <view 
-
-  @touchstart="handleTouchStart" 
-  @touchend="handleTouchEnd">
-    </view
-  >
+  <view>
+    <view class="video_tab">
+      <view class="video_tab_title">
+        <view class="title_inner">
+          <uni-segmented-control
+            :values="items.map(v=>v.title)"
+            :current="current"
+            @clickItem="onClickItem"
+            style-type="text"
+            active-color="#d4237a"
+          ></uni-segmented-control>
+        </view>
+        <view class="iconfont iconsearch"></view>
+      </view>
+      <view class="video_tab_content">
+        <view v-if="current<4"><video-main :urlobj="{url:items[current].url,params:items[current].params}"></video-main></view>
+        <view v-if="current===4"><video-category></video-category></view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
+import { uniSegmentedControl } from "@dcloudio/uni-ui";
+import videoMain from "./video-main";
+import videoCategory from "./video-category";
 export default {
+  components: {
+    uniSegmentedControl,
+    videoMain,
+    videoCategory
+  },
   data() {
     return {
-      startTime:0,
-      startX:0,
-      startY:0
-
+      items: [
+        { title: "推荐",url:"http://157.122.54.189:9088/videoimg/v1/videowp/featured",params:{limit:30,skip:0,order:"hot"} },
+        { title: "娱乐",url:"http://157.122.54.189:9088/videoimg/v1/videowp/category/59b25abbe7bce76bc834198a",params:{limit:30,skip:0,order:"new"} },
+        { title: "最新",url:"http://157.122.54.189:9088/videoimg/v1/videowp/videowp",params:{limit:30,skip:0,order:"new"} },
+        { title: "热门",url:"http://157.122.54.189:9088/videoimg/v1/videowp/videowp",params:{limit:30,skip:0,order:"hot"} },
+        { title: "分类",url:"http://157.122.54.189:9088/videoimg/v1/videowp/category",params:{} } 
+      ],
+      current: 0
     };
   },
   methods: {
-    handleTouchStart(e) {
-        this.startTime = Date.now();
-        this.startX = e.changedTouches[0].clientX;
-        this.startY = e.changedTouches[0].clientY;
-
-    },
-    handleTouchEnd(e) {
-
-
-        let endX = e.changedTouches[0].clientX;
-        let endY = e.changedTouches[0].clientY;
-
-        if(Date.now() - this.startTime > 2000){ //判断手指停留时间
-          console.log('不合格');
-        }
-        
-        let direction = '';
-        
-      // 先判断用户滑动的距离 是否合法 合法：判断滑动的方向  注意 距离要加上绝对值
-      if (Math.abs(endX - this.startX) > 10) {
-        // 滑动方向！！！
-        direction = endX - this.startX > 0 ? "right" : "left"; //大于零说明是往右边滑动
-      } else {
-        return;
+    onClickItem(e) {
+      if (this.current !== e.currentIndex) {
+        this.current = e.currentIndex;
       }
-
-        console.log(direction);
-
-
-
-      
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
 
+<style lang="scss" >
+.video_tab{
+  .video_tab_title{
+    position: relative;
+    .title_inner{
+      width: 60%;
+      margin: 0 auto;
+    }
+    .iconsearch{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 5%;
+    }
+  }
+  .video_tab_content{}
+}
 </style>

@@ -1,8 +1,6 @@
 <template>
   <view class="ImgDetails">
-
     <view class="DetailsTitle">
-
       <!-- 人物信息 -->
       <view class="UserInfo">
         <view class="Useravatar">
@@ -15,59 +13,44 @@
       </view>
       <!-- 主图 -->
       <view class="BigPicture">
-          <SwiperAction @swiperAction="handleswiperAction">
-        <image 
-        :src=imgDetail.thumb
-         />
-          </SwiperAction>
+        <SwiperAction @swiperAction="handleswiperAction">
+          <image :src="imgDetail.thumb" mode="widthFix" />
+        </SwiperAction>
       </view>
       <!-- 互动 -->
       <view class="Interactive">
-
         <view class="Like">
-          <text class="iconfont icondianzan">{{imgDetail.rank}}</text>
+          <text class="iconfont icondianzan">{{ imgDetail.rank }}</text>
         </view>
         <view class="favorites">
           <text class="iconfont iconshoucang">收藏</text>
         </view>
-        
       </view>
-
     </view>
 
     <!-- 热门 -->
-    <view
-      class="comment hot"
-      v-if="hot.length"
-    >
+    <view class="comment hot" v-if="hot.length">
       <view class="comment_title">
         <text class="iconfont iconhot1"></text>
         <text class="comment_text">最热评论</text>
       </view>
       <view class="comment_list">
-        <view
-          class="comment_item"
-          v-for="item in hot"
-          :key="item.id"
-        >
+        <view class="comment_item" v-for="item in hot" :key="item.id">
           <!-- 用户信息 -->
           <view class="comment_user">
             <!-- 用户头像 -->
             <view class="user_icon">
-              <image
-                mode="widthFix"
-                :src="item.user.avatar"
-              ></image>
+              <image mode="widthFix" :src="item.user.avatar"></image>
             </view>
             <!-- 用户名称 -->
             <view class="user_name">
-              <view class="user_nickname">{{item.user.name}}</view>
-              <view class="user_time">{{item.cnTime}}</view>
+              <view class="user_nickname">{{ item.user.name }}</view>
+              <view class="user_time">{{ item.cnTime }}</view>
             </view>
             <!-- 用户徽章 -->
             <view class="user_badge">
               <image
-                v-for=" item2 in  item.user.title"
+                v-for="item2 in item.user.title"
                 :key="item2.icon"
                 :src="item2.icon"
               ></image>
@@ -75,47 +58,37 @@
           </view>
           <!-- 评论数据 -->
           <view class="comment_desc">
-            <view class="comment_content">{{item.content}}</view>
+            <view class="comment_content">{{ item.content }}</view>
             <view class="comment_like">
-              <text class="iconfont icondianzan">{{item.size}}</text>
+              <text class="iconfont icondianzan">{{ item.size }}</text>
             </view>
           </view>
         </view>
       </view>
     </view>
     <!-- 最新评论 comment new -->
-    <view
-      class="comment new"
-      v-if="comment.length"
-    >
+    <view class="comment new" v-if="comment.length">
       <view class="comment_title">
         <text class="iconfont iconpinglun"></text>
         <text class="comment_text">最新评论</text>
       </view>
       <view class="comment_list">
-        <view
-          class="comment_item"
-          v-for="item in comment"
-          :key="item.id"
-        >
+        <view class="comment_item" v-for="item in comment" :key="item.id">
           <!-- 用户信息 -->
           <view class="comment_user">
             <!-- 用户头像 -->
             <view class="user_icon">
-              <image
-                mode="widthFix"
-                :src="item.user.avatar"
-              ></image>
+              <image mode="widthFix" :src="item.user.avatar"></image>
             </view>
             <!-- 用户名称 -->
             <view class="user_name">
-              <view class="user_nickname">{{item.user.name}}</view>
-              <view class="user_time">{{item.cnTime}}</view>
+              <view class="user_nickname">{{ item.user.name }}</view>
+              <view class="user_time">{{ item.cnTime }}</view>
             </view>
             <!-- 用户徽章 -->
             <view class="user_badge">
               <image
-                v-for=" item2 in  item.user.title"
+                v-for="item2 in item.user.title"
                 :key="item2.icon"
                 :src="item2.icon"
               ></image>
@@ -123,9 +96,9 @@
           </view>
           <!-- 评论数据 -->
           <view class="comment_desc">
-            <view class="comment_content">{{item.content}}</view>
+            <view class="comment_content">{{ item.content }}</view>
             <view class="comment_like">
-              <text class="iconfont icondianzan">{{item.size}}</text>
+              <text class="iconfont icondianzan">{{ item.size }}</text>
             </view>
           </view>
         </view>
@@ -133,16 +106,14 @@
     </view>
 
     <!-- 下载按钮 -->
-    <view class="download" @click=handleDownload>
+    <view class="download" @click="handleDownload">
       <view class="btn">下载图片</view>
     </view>
-
-
   </view>
 </template>
 
 <script>
-import moment from 'moment';
+import moment from "moment";
 import swiperAction from "@/components/swiperAction";
 //设置中文
 moment.locale("zh-cn");
@@ -155,96 +126,142 @@ export default {
 3.循环的时候接受图片数据和index并储存在全局变量 
 4.然后在图片 点击的时候实现跳转
  */
-components:{swiperAction},
+  components: { swiperAction },
   data() {
     return {
       imgDetail: {}, //图片数据
       imgIndex: Number, //图片索引
-      comment:[], //最新评论
-      hot:[], //热门评论
+      comment: [], //最新评论
+      hot: [], //热门评论
+      hasMore: true,
     };
   },
   onLoad() {
-    const {imgIndex} = getApp().globalData;
+    const { imgIndex } = getApp().globalData;
     this.imgIndex = imgIndex;
     this.getData();
   },
   methods: {
-    getData() { //获取标题数据
+    getData() {//获取标题数据
+
+
+    
       const { imgList } = getApp().globalData; //接受图片数据
       this.imgDetail = imgList[this.imgIndex]; //页面数据
       this.imgDetail.cnTime = moment(this.imgDetail.atime * 1000).fromNow(); //距离时间
-      this.getContent(this.imgDetail.id);  //索引id
+      // this.getContent(this.imgDetail.id);  //索引id
     },
 
-    getContent(id){ //评论数据
+    getContent(id) {
+      //评论数据
 
-      uni.request({
-        url:`http://157.122.54.189:9088/image/v2/wallpaper/wallpaper/${id}/comment`
-      }).then(result => {
+      this.request({
+        url: `http://157.122.54.189:9088/image/v2/wallpaper/wallpaper/${id}/comment`,
+      }).then((result) => {
         // console.log(result[1].data.res);
-        result[1].data.res.comment.forEach(v => (v.cnTime = moment(v.atime * 1000).fromNow()));
-        result[1].data.res.hot.forEach( v=> {(v.cnTime = moment(v.atime * 1000).fromNow())})
+        result.data.res.comment.forEach(
+          (v) => (v.cnTime = moment(v.atime * 1000).fromNow())
+        );
+        result.data.res.hot.forEach((v) => {
+          v.cnTime = moment(v.atime * 1000).fromNow();
+        });
 
-        this.hot = result[1].data.res.hot; //最热
-        this.comment = result[1].data.res.comment; //最新
-
-      }
-      )
-      
+        this.hot = result.data.res.hot; //最热
+        this.comment = result.data.res.comment; //最新
+      });
     },
-    handleswiperAction(e){
+    handleswiperAction(e) {//滑动组件
 
-      const {imgList} = getApp().globalData;
+      const { imgList } = getApp().globalData;
 
-      if(e.direction === 'left' && this.imgIndex < imgList.length - 1){ //说明往左滑动
+      //判断是否位于最后一张图片
+      if (this.imgIndex >= imgList.length - 1 && getApp().globalData.Imgid.length > 0) {//当滑动到最后一张 触发
+        
+        getApp().globalData.params.skip += getApp().globalData.params.limit;
+
+        if (this.hasMore) {
+          
+          this.request({
+            url: `http://157.122.54.189:9088/image/v1/vertical/category/${getApp().globalData.Imgid}/vertical`,
+            data: getApp().globalData.params,
+          }).then((result) => {
+            if (result.data.res.vertical.length === 0) {
+              //没有数据了
+              uni.showToast({
+                title: "没有下一页数据了",
+                icon: "none",
+              });
+              this.hasMore = false;
+              return;
+            }
+
+            getApp().globalData.imgList = [
+              ...getApp().globalData.imgList,
+              ...result.data.res.vertical,
+            ];
+            this.imgIndex++;
+            this.getData();
+          });
+        } else {
+          uni.showToast({
+            title: "没有数据了",
+            icon: "none",
+          });
+          return;
+        }
+      }
+
+      if (e.direction === "left" && this.imgIndex < imgList.length - 1) {
+        //说明往左滑动
         this.imgIndex++;
         this.getData();
-      }else if(e.direction === 'right' && this.imgIndex > 0 ){ //右滑
+      } else if (e.direction === "right" && this.imgIndex > 0) {
+        //右滑
         this.imgIndex--;
-        this.getData()
-      }else{
-        uni.showToast({
-          title:'没有数据了',
-          icon:'none'
-        })
+        this.getData();
+      } else {
+        // uni.showToast({
+        //   title:'没有数据了',
+        //   icon:'none'
+        // })
+        //滑动到最后一张 加载下一页
       }
-     
     },
-        // 点击下载图片 async await promise
+    // 点击下载图片 async await promise
     async handleDownload() {
+      //储存图片
       // uni.downloadFile
       // uni.saveImageToPhotosAlbum
 
       await uni.showLoading({
-        title:"下载中"
-      })
+        title: "下载中",
+      });
 
       // 1 将远程文件下载到小程序的内存中 tempFilePath
       const result1 = await uni.downloadFile({ url: this.imgDetail.img });
       const { tempFilePath } = result1[1];
 
       //  2 将小程序内存中的临时文件下载到本地上
-      const result2 = await uni.saveImageToPhotosAlbum({ filePath: tempFilePath });
+      const result2 = await uni.saveImageToPhotosAlbum({
+        filePath: tempFilePath,
+      });
       // console.log(result2);
       // 3 提示用户下载成功
       // console.log("下载城市");
 
       uni.hideLoading();
       await uni.showToast({
-        title:"下载成功"
+        title: "下载成功",
         // icon
-      })
-    }
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 /* 标题介绍 */
 .DetailsTitle {
-
   .UserInfo {
     display: flex;
     padding: 30rpx;
@@ -252,8 +269,8 @@ components:{swiperAction},
     .Useravatar {
       padding: 0 20rpx;
       image {
-      width: 88rpx;
-      border-radius: 50%;
+        width: 88rpx;
+        border-radius: 50%;
       }
     }
 
@@ -266,40 +283,35 @@ components:{swiperAction},
       }
 
       .UserDistanceTime {
-         color: #ccc;
-         font-size: 24rpx;
-         padding: 10rpx 0;
+        color: #ccc;
+        font-size: 24rpx;
+        padding: 10rpx 0;
       }
     }
   }
-
 
   .Interactive {
     display: flex;
     border-bottom: 1px solid rgb(119, 119, 119);
     padding: 15rpx 0;
-  .Like {
-    flex: 1;
-    display: flex;
-    justify-content: center;    
-    align-items: center;
-    text {
+    .Like {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text {
+      }
+    }
 
+    .favorites {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text {
+      }
     }
   }
-
-  .favorites {
-        flex: 1;
-    display: flex;
-    justify-content: center;    
-    align-items: center;
-    text {
-
-    }
-  }
-}
-
-
 }
 
 .comment {
@@ -383,24 +395,23 @@ components:{swiperAction},
   }
 }
 //按钮
-.download{
+.download {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20rpx;
-  .btn{
+  .btn {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgb(253, 2, 128);
     color: #fff;
     width: 85%;
-    padding:  30rpx 0;
+    padding: 30rpx 0;
     border-radius: 10rpx;
     font-size: 60rpx;
   }
 }
-
 </style>
 
 

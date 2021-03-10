@@ -14,7 +14,7 @@
         <view class="name">{{item.name}}</view>
       </navigator>
 
-      0
+      
     </view>
     
   </viwe>
@@ -28,21 +28,23 @@ export default {
       caregory:[],
     }
   },
+    methods:{
+  
+      getList(){ //获取图片数据
+  
+        this.request({
+          url:"http://157.122.54.189:9088/image/v1/vertical/category"
+        }).then(result => {
+
+          this.caregory = result.data.res.category;
+
+        })
+      }
+  
+    },
   mounted(){
     this.getList();
-  },
-  methods:{
-
-    getList(){ //获取图片数据
-
-      uni.request({
-        url:"http://157.122.54.189:9088/image/v1/vertical/category"
-      }).then(result => {
-        this.caregory = result[1].data.res.category;
-        console.log(this.caregory);
-      })
-    }
-
+    uni.setNavigationBarTitle({title:'分类'});
   },
 
 } 

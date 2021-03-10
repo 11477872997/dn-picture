@@ -28,7 +28,7 @@
     <!-- 专辑列表 -->
     <view class="album_list">
       <view class="album_item" v-for="(item,index) in wallpaper" :key="item.id">
-      <go-detail :list='wallpaper' :index=index>
+      <go-detail :list='wallpaper' :index=index >
         <image :src="item.thumb+item.rule.replace('$<Height>',360)" mode="aspectFill" />
       </go-detail>
       </view>
@@ -44,29 +44,29 @@ export default {
   },
   data() {
     return {
-      parmas: {
-        limit: 30,
+      params: {
+        limit: 10,
         order: "new",
         skip: 0,
         first: 1, //代表第一次请求
       },
-      id: -1, //index
+      Imgid: -1, //index
       album: {}, //专辑介绍
       wallpaper: [], //图片
       hasMore:true,
     };
   },
   onLoad(options) {
-    this.id = options.id;
+    this.Imgid = options.id;
     // this.id = "5d5f8e45e7bce75ae7fb8278";
     this.getList();
-    console.log(123321);
+    // console.log(123321);
   },
   onReachBottom(){ //触底函数
 
     if(this.hasMore){
-      this.parmas.first = 0;
-      this.parmas.skip += this.parmas.limit; //
+      this.params.first = 0;
+      this.params.skip += this.params.limit; //
       this.getList();
     }else{
       uni.showToast({
@@ -82,18 +82,18 @@ export default {
   methods: {
 
   getList() {
-    uni.request({
-        url: `http://157.122.54.189:9088/image/v1/wallpaper/album/${this.id}/wallpaper`,
-        data: this.parmas,
+    this.request({
+        url: `http://157.122.54.189:9088/image/v1/wallpaper/album/${this.Imgid}/wallpaper`,
+        data: this.params,
       })
       .then((result) => {
 
 
         if(Object.keys(this.album).length == 0){
-          this.album = result[1].data.res.album;
+          this.album = result.data.res.album;
         }
 
-        if(result[1].data.res.wallpaper.length == 0){
+        if(result.data.res.wallpaper.length == 0){
           this.hasMore = false;
           uni.showToast({
             title:'没有数据了',
@@ -103,7 +103,7 @@ export default {
 
         }
 
-        this.wallpaper = [...this.wallpaper,...result[1].data.res.wallpaper];
+        this.wallpaper = [...this.wallpaper,...result.data.res.wallpaper];
 
       });
   },

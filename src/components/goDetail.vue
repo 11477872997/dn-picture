@@ -12,11 +12,23 @@ export default {
   props:{
     list:Array,
     index:Number,
+    params:Object,
+    Imgid:''
   },
   methods:{
     handleClick(){
       getApp().globalData.imgList=this.list;
       getApp().globalData.imgIndex=this.index;
+
+      if(this.params){
+        getApp().globalData.params = this.params
+        getApp().globalData.Imgid = this.Imgid
+        
+      }
+
+      console.log(this.Imgid);
+
+
       uni.navigateTo({
         url:'/pages/ImgDetails/index'
       })
